@@ -1,30 +1,40 @@
-import { useState } from 'react';
+import { Component, useState } from "react";
 
+class ChatInput extends Component {
+  state = { message: "" };
 
-export default function ChatInput() {
-
-  const [value, setValue] = useState("");
-  const sendMessage = (event) => {
-    console.log(value);
+  sendMessage = (event) => {
+    this.props.chatWindowCallback(this.state.message);
     event.preventDefault();
   };
+  handleValueChange = (e) => {
+    
+    this.setState({ message: e.target.value });
+  };
+  render() {
+    return (
+      <div>
+        <form>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Write a message"
+              onChange={this.handleValueChange}
+            />
 
-  return (
-    <div>
-      <form>
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Write a message"
-            onChange={(e) => setValue(e.target.value)}
-          />
-
-          <button value={value} onClick={sendMessage} className="btn btn-primary">
-            Send
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+            <button
+              value={this.state.message}
+              onClick={this.sendMessage}
+              className="btn btn-primary"
+            >
+              Send
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
+
+export default ChatInput;

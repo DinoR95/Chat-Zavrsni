@@ -1,27 +1,36 @@
+import { Component } from "react";
 import { MessageObject } from "../../models/messageobject";
 
-export default function ChatBox() {
+class ChatBox extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
 
+  state = {
+    messages: [],
+  };
 
-  let messageOne = new MessageObject("Dino", "poruka jeadand");
-  let messageTwo = new MessageObject(
-    "Dino123",
-    "poruka asrtmhkajsertnhlaertijhkn"
-  );
-  let messageTree = new MessageObject("Dino123dsadsad", "poruka 2");
+  updateMessages = (newMessage) => {
+    this.setState({
+      messages: newMessage,
+    });
 
-  let messageList = [messageOne, messageTwo, messageTree];
+    console.log(this.state.messages);
+  };
 
-  return (
-    <div>
-      {messageList.map(function (message, index) {
-        return (
-          <div key={index} class="message">
-            {message.sender} <br />
-            {message.message}
-          </div>
-        );
-      })}
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        {this.state.messages.map(function (message, index) {
+          return (
+            <div key={index} className="message">
+              {message.text.message} <br />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 }
+export default ChatBox;

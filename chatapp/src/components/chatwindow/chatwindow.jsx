@@ -15,8 +15,19 @@ class ChatWindow extends Component {
       }
 
 
+
     constructor() {
         super();
+        this.chatBoxElement = React.createRef();
+
+        
+      }
+
+      updateMessages = () => {
+        this.chatBoxElement.current.updateMessages(this.state.messages);
+      };
+
+      componentDidMount() {
         this.drone = new window.Scaledrone("7aM5zhCeSdI3TKfh", {
           data: this.state.member
         });
@@ -30,36 +41,37 @@ class ChatWindow extends Component {
         });
         const room = this.drone.subscribe("test_room");
         room.on('data', (data, member) => {
+          const membeer = {...this.state.member};
+
           const messages = this.state.messages;
-          messages.push({member, text: data});
+          messages.push({membeer, text: data});
           this.setState({messages});
-          console.log(messages)
+          this.updateMessages();
         });
-      }
+    }
 
       render() {
         return (
-            <div></div>
-        //   <div className="App">
-        //     <div className="App-header">
-        //       <h1>My Chat App</h1>
-        //     </div>
-        //     <Messages
-        //       messages={this.state.messages}
-        //       currentMember={this.state.member}
-        //     />
-        //     <Input
-        //       onSendMessage={this.onSendMessage}
-        //     />
-        //   </div>
-        );
+            <div>
+              <ChatBox ref={this.chatBoxElement}/>
+              <ChatInput chatWindowCallback={this.onSendMessage}/>
+            </div>
+
+        ); 
       }
     
       onSendMessage = (message) => {
+        let sendMessage = {
+          message: message,
+          year: 2023
+        }
+
         this.drone.publish({
-          room: "observable-room",
-          message
+          room: "test_room",
+          message: sendMessage
         });
+
+        console.log("dasdasd")
       }
 }
 
