@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import { Component } from "react";
 
 class ChatInput extends Component {
   state = { message: "" };
@@ -8,14 +8,13 @@ class ChatInput extends Component {
     event.preventDefault();
   };
   handleValueChange = (e) => {
-    
     this.setState({ message: e.target.value });
   };
   render() {
     return (
-      <div>
-        <form>
-          <div className="input-group mb-3">
+      <div style={{ height: "100%" }}>
+        <form style={{ height: "100%" }}>
+          <div className="input-group" style={{ height: "100%" }}>
             <input
               type="text"
               className="form-control"
